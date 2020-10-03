@@ -3,7 +3,7 @@ package collections;
 public class GenericsExample {
 	
 		   // generic method listArray
-		   public static < T > void listArray( T[] argArray ) {
+		   public static  <T> void listArray( T[] argArray ) {
 		      // List array elements
 		      for(T element : argArray) {
 		         System.out.print(element);
