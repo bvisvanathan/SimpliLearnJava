@@ -6,7 +6,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class CommitRollback {
-	private static final String db = "jdbc:mysql://localhost:3306/coolthings";
+	private static final String db = "jdbc:mysql://localhost:3306/vehicle";
 	private static final String user = "root";
 	private static final String pwd = "root";
 	
@@ -37,9 +37,11 @@ public class CommitRollback {
 		
 		//Prepared statement
 		
-		String query2 = "Insert into coolthings.cars_tbl (car_regn, car_model, car_color, car_mileage) values (?,?,?,?)";
+		String query2 = "Insert into vehicle.cars_tbl (car_regn, car_model, car_color, car_mileage) values (?,?,?,?)";
 		
 		Scanner s2 = new Scanner(System.in	);
+		
+	   
 		
 		char ans = ' ' ;
 		

@@ -36,6 +36,7 @@ public class DBOperations {
 		System.out.println("3.Update a record");
 		System.out.println("4.Create a database");
 		System.out.println("5.Drop the database created");
+		System.out.println("6. Delete a record");
 		
 		
 		int choice = s1.nextInt();
@@ -59,6 +60,10 @@ public class DBOperations {
 		case 5:
 			System.out.println("Name of the database you want to delete:");
 			d1.deleteDb(s1.nextLine());
+			break;
+			
+		case 6:
+			d1.deleteRecord();
 		}
 		s1.close();
 	}
@@ -156,6 +161,50 @@ public class DBOperations {
 	
 	}
 	
+	public void deleteRecord() {
+		//Prepared statement
+				String deletequery = "delete from cars_tbl \n"+
+									"WHERE car_regn = ?";
+				
+				Scanner sc1 = new Scanner(System.in);
+				
+				try {
+					try {
+						Class.forName("com.mysql.cj.jdbc.Driver");
+					}
+					catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					
+					con=DriverManager.getConnection(db, user, pwd);
+					
+					pstmt = con.prepareStatement(deletequery);
+					System.out.println("Car regn that you want to delete:");
+					pstmt.setString(1, sc1.nextLine());
+					
+					
+					int ret = pstmt.executeUpdate();
+					if (ret == 1) {
+						System.out.println("Successfully deleted the record");
+					}
+					else {
+						System.out.println("Unable to delete the record. Verify regn number.");
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				finally {
+					try {
+					con.close();
+					pstmt.close();
+					sc1.close();
+					}
+					catch (Exception e2) {
+						e2.printStackTrace();
+					}
+			}
+	}
+	
 	public void updateRecord() {
 		
 		//Prepared statement
@@ -246,7 +295,7 @@ public void createDb(String dbname) {
 public void deleteDb(String dbname) {
 	
 	//Prepared statement
-	String query5 = "DROP DATABASE "+ dbname;
+	String query5 = "DROP DATABASE IF EXISTS"+ dbname;
 	
 	Scanner s5 = new Scanner(System.in);
 	
@@ -267,7 +316,9 @@ public void deleteDb(String dbname) {
 		System.out.println("Successfully deleted the database");
 		
 	} catch (SQLException e1) {
-		e1.printStackTrace();
+		//e1.printStackTrace();
+		System.out.println("Database already exists unable to delete the database");
+		
 	}
 	finally {
 		try {
